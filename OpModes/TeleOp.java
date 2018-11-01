@@ -34,6 +34,9 @@ package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.Subsystems.Arm;
+import org.firstinspires.ftc.teamcode.Subsystems.Climber;
+import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.ToolClasses.Controls;
 
 
@@ -41,20 +44,25 @@ import org.firstinspires.ftc.teamcode.ToolClasses.Controls;
 public class TeleOp extends OpMode{
 
     /* Declare OpMode members. */
-    private Robot robot = new Robot(hardwareMap);
-    private Controls controls = new Controls(gamepad1, gamepad2);
+    private Controls controls;
+    private Arm arm;
+    private DriveTrain driveTrain;
+    private Climber climber;
 
     @Override
     public void init() {
 
-        robot.init();
+        controls = new Controls(gamepad1, gamepad2);
+        arm = new Arm(hardwareMap);
+        driveTrain = new DriveTrain(hardwareMap);
+        climber = new Climber(hardwareMap);
+
         telemetry.addData("Say", "Initializing Complete");
 
     }
 
     @Override
     public void init_loop() {
-
     }
 
     @Override
@@ -65,6 +73,10 @@ public class TeleOp extends OpMode{
 
     @Override
     public void loop() {
+
+        arm.setArmMotor(controls.getArmPower());
+        climber.setClimb(controls.getClimberPower());
+        driveTrain.drive(controls.getLeftDrive(), controls.getRightDrive());
 
     }
 
